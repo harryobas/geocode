@@ -9,7 +9,12 @@ RSpec.describe AreasController, type: :controller do
       get :index, params: {}
       expect(response).to be_successful
     end
-    
+    it "renders JSON response" do
+      Locations.expects(:all).returns(locations)
+      get :index, params: {}
+      expect(response.content_type).to eq ('application/json')
+
+    end
   end
 
 
