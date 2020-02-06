@@ -6,5 +6,7 @@ class AreasController < ApplicationController
   end
 
   def inside
+    result = Locations.inside?(params[:geometry][:coordinates])
+    render json: {inside: result}
   end
 end
