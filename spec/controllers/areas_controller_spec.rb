@@ -14,6 +14,10 @@ RSpec.describe AreasController, type: :controller do
     {type: "Feature", geometry: {type: "Polygon", coordinates: [7.3, 50.666872321810715]}, properties: {} }
   }
 
+  let(:incomplete_coordinates){
+    {type: "Feature", geometry: {type: "Point", coordinates: [7.3]}, properties: {} }
+  }
+
   describe "GET #index" do
     it "returns a success response" do
       get :index, params: {}
@@ -49,6 +53,13 @@ RSpec.describe AreasController, type: :controller do
         post :inside, params: wrong_geo_location
         parsed_response = JSON.parse(response.body)
         expect(parsed_response['error']).to eq "incorret location type"
+      end
+    end
+    context "when incoming location has incomplete coordinates" do
+      it "returns error" do
+        post :inside, params: incomplete_coordinates
+        parsed_response = JSON.parse(response.body)
+        expect(parsed_response['error']).to eq "incomplete coordinates"
       end
     end
 

@@ -1,5 +1,10 @@
 class AreasController < ApplicationController
 
+  rescue_from StandardError do |e|
+  render json: {error: e.message}, status: :unprocessable_entity
+end
+
+
   def index
     locations = Locations.all
     render json: locations
